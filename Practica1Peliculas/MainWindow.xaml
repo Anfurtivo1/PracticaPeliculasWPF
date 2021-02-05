@@ -1,0 +1,83 @@
+﻿<Window x:Class="Practica1Peliculas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practica1Peliculas"
+        xmlns:vm="clr-namespace:Practica1Peliculas.VistaModelo"
+        mc:Ignorable="d"
+        Title="Alquiler peliculas" Height="450" Width="800">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="vm:Comandos.Anadir" CanExecute="CompruebaAnadir" Executed="EjecutaAnadir"/>
+        <CommandBinding Command="vm:Comandos.Modificar" CanExecute="CompruebaModificar" Executed="EjecutaModificar"/>
+        <CommandBinding Command="vm:Comandos.Eliminar" CanExecute="CompruebaEliminar" Executed="EjecutaEliminar"/>
+    </Window.CommandBindings>
+
+    <Window.Resources>
+        <Style x:Key="img" TargetType="Image">
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Height" Value="130"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Stretch" Value="UniformToFill"/>
+        </Style>
+        <vm:DefaultViewModel x:Name="PeliculasColeccion" x:Key="PeliculasColeccion"/>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:DefaultViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="395*"/>
+            <ColumnDefinition Width="406*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="btnAnadir" Command="vm:Comandos.Anadir" Content="Añadir" Grid.Column="1" HorizontalAlignment="Left" Margin="190,70,0,0" VerticalAlignment="Top" Click="btnAnadir_Click"/>
+        <Button Name="btnModificar" Command="vm:Comandos.Modificar" Content="Modificar" Grid.Column="1" HorizontalAlignment="Left" Margin="182,110,0,0" VerticalAlignment="Top" Click="btnModificar_Click"/>
+        <Button Name="btnEliminar" Command="vm:Comandos.Eliminar" Content="Eliminar" Grid.Column="1" HorizontalAlignment="Left" Margin="186,150,0,0" VerticalAlignment="Top" Click="btnEliminar_Click"/>
+        <Button Name="btnGuardarBD" Content="Guardar en BD" Grid.Column="1" HorizontalAlignment="Left" Margin="168,190,0,0" VerticalAlignment="Top" Click="btnGuardarBD_Click"/>
+
+        <ListView x:Name="Lista" ItemsSource="{Binding Source={StaticResource PeliculasColeccion}, Path=PeliculaList}">
+            <ListView.ItemTemplate>
+                <!--<TextBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" />-->
+                <DataTemplate>
+                    <Grid Width="269">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="146*"/>
+                            <ColumnDefinition Width="123*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Orientation="Horizontal" Width="168">
+                                <TextBlock Text="Titulo:"/>
+                                <TextBlock Text="{Binding Titulo}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Width="168">
+                                <TextBlock Text="Director/a:"/>
+                                <TextBlock Text="{Binding Director}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Width="168">
+                                <TextBlock Text="Argumento:" />
+                                <TextBlock Text="{Binding Argumento}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <Image HorizontalAlignment="Left" Style="{StaticResource img}" Source="/Imagenes/Imagen1.png"/>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Genero:"/>
+                                    <TextBlock Text="{Binding Genero}"/>
+                                </StackPanel>
+                                <Separator Margin="4"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Año:"/>
+                                    <TextBlock Text="{Binding Ano}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>
